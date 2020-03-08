@@ -1,0 +1,91 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-title>GTO-Calculator</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-grid>
+        <ion-row>
+            <ion-col size-xl="6" offset-xl="3">
+                <ion-card class="ion-padding">
+                    <ion-list lines="full">
+                        <ion-item>
+                            <ion-label position="floating" fixed>Pot value</ion-label>
+                            <ion-input [(ngModel)]="potValue" type="number"></ion-input>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label position="floating">Bet value</ion-label>
+                            <ion-input [(ngModel)]="betValue" type="number"></ion-input>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label position="floating">Stack value</ion-label>
+                            <ion-input [(ngModel)]="stackValue" type="number"></ion-input>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label position="floating">Equity value</ion-label>
+                            <ion-input [(ngModel)]="equityValueInput" type="number"></ion-input>
+                        </ion-item>
+
+                    </ion-list>
+                    <div class="ion-padding">
+                        <ion-grid>
+                            <ion-row>
+                                <ion-text color="dark">
+                                    <p style="font-size: 16px;">Starting range: {{nrOfHands}} combos
+                                        ({{calcCurrHandsPercent()}}%)</p>
+                                </ion-text>
+                            </ion-row>
+                            <ion-row>
+                                <ion-col>
+                                    <ion-range [min]="minRangeValue" [max]="maxRangeValue"
+                                               (ionChange)="onRangeSlide()"
+                                               [(ngModel)]="nrOfHands"
+                                               [value]="nrOfHands"
+                                               step="1">
+                                        <ion-label slot="start">{{minRangeValue}}</ion-label>
+                                        <ion-label slot="end">{{maxRangeValue}}</ion-label>
+                                    </ion-range>
+                                </ion-col>
+                            </ion-row>
+                            <ion-row>
+                                <ion-col class="ion-text-center">
+                                    <ion-button (click)="onRangeClick()" color="primary" fill="outline">
+                                        <ion-icon slot="icon-only" name="arrow-up-outline"></ion-icon>
+                                    </ion-button>
+                                    <ion-button (click)="onRangeClick(false)" color="danger" fill="outline">
+                                        <ion-icon slot="icon-only" name="arrow-down-outline"></ion-icon>
+                                    </ion-button>
+                                </ion-col>
+                            </ion-row>
+                        </ion-grid>
+                        <ion-item-divider></ion-item-divider>
+                    </div>
+
+                    <ion-button [disabled]="currSelectedStatsType=== StatsType.FEQ"
+                                (click)="onCalcStats(StatsType.FEQ)">
+                        FEQ
+                    </ion-button>
+                    <ion-button [disabled]="currSelectedStatsType=== StatsType.BVR"
+                                (click)="onCalcStats(StatsType.BVR)">
+                        BVR
+                    </ion-button>
+                    <ion-button [disabled]="currSelectedStatsType=== StatsType.MDF"
+                                (click)="onCalcStats(StatsType.MDF)">
+                        MDF
+                    </ion-button>
+                    <ion-button [disabled]="currSelectedStatsType=== StatsType.IMO"
+                                (click)="onCalcStats(StatsType.IMO)">
+                        IMO
+                    </ion-button>
+                    <p *ngIf="statsResult">
+                        <ion-text>{{statsResult.resultText}}</ion-text>
+                    </p>
+                    <p *ngIf="statsResult">
+                        <ion-text>{{statsResult.resultTextAdditional}}</ion-text>
+                    </p>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>
